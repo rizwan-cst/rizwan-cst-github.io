@@ -234,12 +234,27 @@ const ITEMS = [
     repo:"https://github.com/rizwan-cst/library-db" }
   */
 
-  { type: "script", title:"National Infrastructure Database", desc:"a centralized database that contains information about various infrastructure projects spanning across Canada", tags:["Databases","MySQL","JSON", "XML", "Schema"], date:"2026-04-13",
+  { type: "doc", title:"National Infrastructure Database", desc:"a centralized database that contains information about various infrastructure projects spanning across Canada", tags:["Databases","MySQL","JSON", "XML", "Schema"], date:"2026-04-13",
    dir:"files/Databases/National-Infrastructure", 
    files: ["README.docx","infrastructure-projects-JSON.json","infrastructure-projects-XML.xml","national-database-schema.mwb","national-infrastructure-database.sql"],
   }
 ];
 
+   { type: "script", title:"PowerShell cmdlets", desc:"PowerShell cmdlet research & documentation", tags:["PowerShell","Scripting","cmdlets"], date:"2026-08-13 - 2026-09-17",
+   dir:"files/PowerShell/cmdlets", 
+   files: ["Commandlet1.ps1","Commandlet2.ps1","Commandlet3.ps1","Commandlet4.ps1","Commandlet5.ps1","Commandlet6.ps1"],
+  }
+];
+
+
+   { type: "script", title:"PowerShell Scripting", desc:"miscellaneous PowerShell scripting work", tags:["PowerShell","Scripting"], date:"2026-08-13 - 2026-09-17",
+   dir:"files/PowerShell/scripting-labs", 
+   files: ["CVS-Reporting.ps1","Class-Objects-Constructors-Custom-Objects.ps1","Lab-6.ps1","Lab-7.ps1","Lab-8.ps1"],
+  }
+];
+
+  { type:"pt", title:"Software Inventory Generator", desc: "A powershell script which utilizes WMI cmdlets to query to retrieve all of the software installed on the machine. Can work with multiple systems along with remote machines", file:"files/PowerShell/scripting-labs/SoftwareInventoryGenerator.ps1", tags:["PowerShell","scripting"], date:"2026-08-10" },
+  
 /* body is HTML inside backticks (can span lines). Newest post first. */
 const POSTS = [
   { title:"Fostering Positive Communication", date:"2026-05-14",

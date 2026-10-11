@@ -198,10 +198,19 @@ const CONFIG = {
 
 /* type: script | pt | slides | doc   |   file = path inside your repo   |   date = YYYY-MM-DD */
 const ITEMS = [
-  { type:"pt",     title:"VLAN and inter-VLAN routing lab", desc:"Three VLANs, a router-on-a-stick and DHCP relay.", file:"files/packet-tracer/vlan-lab.pkt", tags:["vlan","routing"], date:"2026-09-02" },
-  { type:"script", title:"Backup switch configs",           desc:"Pulls running configs over SSH and saves them with a timestamp.", file:"files/scripts/backup_configs.py", tags:["python","ssh"], date:"2026-08-14" },
-  { type:"slides", title:"Intro to subnetting",             desc:"Slides from my class presentation.", file:"files/slides/subnetting.pptx", tags:["pptx","ipv4"], date:"2026-07-20" },
-  { type:"doc",    title:"Network design report",           desc:"Design notes and IP plan for a small office.", file:"files/docs/network-design.pdf", tags:["pdf","design"], date:"2026-06-30" }
+  { type:"pt", title:"IP Address Allocation", desc:"Assigned & allocated ip addresses to a LAN ", file:"files/Networking/CST-1/rizwan-anver-ip.pkt", tags:["switching","routing"], date:"2026-02-09" },
+  { type:"pt", title:"DNS & DHCP Servers", desc:"Configured DNS addresses along with DHCP on a LAN", file:"files/Networking/CST-1/rizwan-anver-dns-dhcp", tags:["DNS","DHCP"], date:"2026-02-07" },
+  { type:"pt", title:"Multiple Subnets", desc:"Subnetting multiple LANS with switching", file:"files/Networking/CST-1/rizwan-anver-subnet", tags:["subnet","switching"], date:"2026-03-09" },
+  { type:"pt", title:"VLAN segementation", desc:"Segmented an small Office LAN using VLANS.", file:"files/Networking/CST-1/rizwan-anver-VLANS", tags:["switching","VLANS"], date:"2026-03-09" },
+  { type:"pt", title:"Implemented ROAS technique along with VLANs", desc:"ROAS configuration with VLAN segmentation. Ideal for budget companies", file:"files/Networking/CST-1/rizwan-anver-ROAS", tags:["ROAS","VLANS"], date:"2026-04-10" },
+
+  { type:"pt", title:"Dynamic Routing: EIGRP", desc:"Configured EIGRP (Cisco Only) protoccol on a network spanning several routers", file:"files/Networking/CST-2/rizwan-anver-EIGRP", tags:["routing","EIGRP"], date:"2026-05-14" },
+  { type:"pt", title:"EtherChannel setup configured along with VLANS", desc:"EtherChanneling used to bundle multiple physical Ethernet links into one logical link.", file:"files/Networking/CST-2/rizwan-anver-EtherC", tags:["routing","VLANS", "etherChannel"], date:"2026-05-08" },
+  { type:"pt", title:"Dynamic Routing: OSPF", desc:"OSPF - Open Shortest Path First, unlike EIGRP OSPF is an IEEE protoccol so it isn't limited to Cisco", file:"files/Networking/CST-2/rizwan-anver-OSPF", tags:["routing","OSPF"], date:"2026-05-14" }, 
+  { type:"pt", title:"STP - Spanning Tree Protoccol", desc: "Configured STP on a network to prevent broadcast loops", file:"files/Networking/CST-2/rizwan-anver-STP", tags:["switching","STP"], date:"2026-05-06" }
+
+
+  
 ];
 
 /* body is HTML. Add as many posts as you like, newest first. */

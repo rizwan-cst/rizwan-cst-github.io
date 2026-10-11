@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rizwan Anver | Portfolio</title>
 <meta name="description" content="Labs, scripts, slides and writing.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌐</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -65,6 +66,7 @@ section{padding:44px 0}
 .list{border:1px solid var(--line);border-radius:12px;background:var(--panel);overflow:hidden}
 .row{display:grid;grid-template-columns:110px 1fr auto;gap:16px;align-items:center;padding:16px 18px;border-top:1px solid var(--line);border-left:4px solid var(--c)}
 .row:first-child{border-top:0}
+.row:target{background:color-mix(in srgb,var(--acc) 12%,transparent)}
 .row[data-type=script]{--c:var(--script)}.row[data-type=pt]{--c:var(--pt)}.row[data-type=slides]{--c:var(--slides)}.row[data-type=doc]{--c:var(--doc)}
 .kind{font:600 .8rem var(--body);color:var(--c)}
 .row h3{font-size:1.08rem;font-weight:700}
@@ -169,7 +171,7 @@ nav.show{display:block}nav ul{flex-direction:column}
   </div></section>
 
   <section id="blog"><div class="wrap">
-    <div class="sec-h"><h2>Rants</h2></div>
+    <div class="sec-h"><h2>Blog</h2></div>
     <div id="posts"></div>
   </div></section>
 
@@ -213,7 +215,11 @@ const CONFIG = {
 /* type decides the category + colour:  script = PowerShell | pt = Networking | slides = PowerPoint | doc = Databases
    SINGLE FILE:  file:"path/to/file.ext"
    MULTI FILE:   dir:"path/to/folder", files:["README.md","data/books.json"]   (subfolders become folders in the tree)
-   Optional on either: repo:"https://github.com/..." (GitHub button)   zip:"path/to/all-files.zip" (multi-file only)
+   Optional on any item:
+     repo:"https://github.com/..."  adds a GitHub button
+     zip:"path/to/all-files.zip"    adds a Download .zip button (multi-file only)
+     end:"YYYY-MM-DD"               shows a date range (date to end)
+     id:"short-name"                stable link target: a blog post can link to it with <a href="#p-short-name">
    date = YYYY-MM-DD   |   paths are case-sensitive and need the file extension */
 const ITEMS = [
   { type:"pt", title:"IP Address Allocation", desc:"Assigned and allocated IP addresses on a LAN.", file:"files/Networking/CST-1/rizwan-anver-ip.pkt", tags:["switching","routing"], date:"2026-02-09" },
@@ -226,13 +232,6 @@ const ITEMS = [
   { type:"pt", title:"EtherChannel with VLANs", desc:"EtherChannel bundles multiple physical Ethernet links into one logical link.", file:"files/Networking/CST-2/rizwan-anver-EtherC.pka", tags:["switching","VLANs","EtherChannel"], date:"2026-05-08" },
   { type:"pt", title:"Dynamic Routing: OSPF", desc:"OSPF (Open Shortest Path First) isn't limited to Cisco, unlike EIGRP.", file:"files/Networking/CST-2/rizwan-anver-OSPF.pka", tags:["routing","OSPF"], date:"2026-05-14" },
   { type:"pt", title:"STP: Spanning Tree Protocol", desc:"Configured STP on a network to prevent broadcast loops.", file:"files/Networking/CST-2/rizwan-anver-STP.pka", tags:["switching","STP"], date:"2026-05-06" },
-
-  /* Multi-file example. Uncomment (and add a comma after the STP item above) once the files are in your repo:
-  ,{ type:"doc", title:"Library Database", desc:"Schema, sample data and documentation for a library system.", tags:["mysql","json","xml"], date:"2026-10-01",
-    dir:"files/Databases/library",
-    files:["README.md","schema/library.xml","schema/tables.sql","data/books.json","data/members.json"],
-    repo:"https://github.com/rizwan-cst/library-db" }
-  */
 
   { type:"doc", title:"National Infrastructure Database", desc:"A centralized database containing information about infrastructure projects across Canada.",
     tags:["MySQL","JSON","XML","schema"], date:"2026-04-13",
@@ -250,13 +249,24 @@ const ITEMS = [
     files:["CVS-Reporting.ps1","Class-Objects-Constructors-Custom-Objects.ps1","Lab-6.ps1","Lab-7.ps1","Lab-8.ps1"] },
 
   { type:"script", title:"Software Inventory Generator", desc:"Uses WMI cmdlets to list all software installed on a machine. Works across multiple systems, including remote machines.",
-    file:"files/PowerShell/scripting-labs/SoftwareInventoryGenerator.ps1", tags:["PowerShell","scripting","WMI"], date:"2026-08-10" }
+    file:"files/PowerShell/scripting-labs/SoftwareInventoryGenerator.ps1", tags:["PowerShell","scripting","WMI"], date:"2026-08-10" },
+
+  { type:"slides", id:"positive-communication", title:"Fostering Positive Communication", desc:"PowerPoint slide deck covering the fundamentals of fostering positive communication.",
+    file:"files/Technical-Communications/Week_7_Positive_Communication_Presentation.pptx", tags:["pptx","communication","oratory"], date:"2026-03-09" },
+
+  { type:"slides", title:"Agent Red", desc:"PowerPoint slide deck.",
+    file:"files/Technical-Communications/Agent_Red.pptx", tags:["pptx","oratory","AI","LLM"], date:"2026-04-13" }
 ];
-/* body is HTML inside backticks (can span lines). Newest post first. */
+
+/* body is HTML inside backticks (can span lines). Newest post first.
+   Link to a project with <a href="#p-ID">text</a> where ID is the item's id (or its title in lowercase with dashes). */
 const POSTS = [
   { title:"Fostering Positive Communication", date:"2026-05-14",
     summary:"What does it mean to foster positive communication?",
-    body:`<p>Communication is one of the most important oratory skills in a person's everyday life. No matter what direction you are headed towards, being able to collaborate, converse, and work together with people is a must for everyone. Now the question is: how do we build these bridges?</p>` }
+    body:`
+      <p>Communication is one of the most important oratory skills in a person's everyday life. No matter what direction you are headed towards, being able to collaborate, converse, and work together with people is a must for everyone. Now the question is: how do we build these bridges?</p>
+      <p>I put this into practice in a class presentation: <a href="#p-positive-communication">view the slide deck in my projects</a>.</p>
+    ` }
 ];
 /* ============ END EDIT SECTION ============ */
 
@@ -266,9 +276,11 @@ const TYPES = {
   slides:{label:"PowerPoint", kind:"PowerPoint"},
   doc:{label:"Databases", kind:"Databases"}
 };
+const USED = Object.entries(TYPES).filter(([k]) => ITEMS.some(i => i.type === k));
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt = d => new Date(d + "T00:00").toLocaleDateString(undefined,{year:"numeric",month:"short",day:"numeric"});
+const slug = s => String(s).toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
 const TEXT = /\.(md|txt|json|xml|sql|csv|ps1|py|sh|js|html|ya?ml|cpp|c|h|ini|cfg|conf|log)$/i;
 const base = it => it.dir ? it.dir.replace(/\/$/,"") + "/" : "";
 let filter = "all";
@@ -285,7 +297,7 @@ $("#contactBtns").innerHTML = `<a class="btn main" href="mailto:${esc(CONFIG.ema
 $("#foot").textContent = `© ${new Date().getFullYear()} ${CONFIG.name}. Built with plain HTML and hosted on GitHub Pages.`;
 $("#linkMenu").innerHTML = CONFIG.links.map(l => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join("");
 $("#workMenu").innerHTML = `<a href="#work" data-f="all">All work</a>` +
-  Object.entries(TYPES).map(([k,v]) => `<a href="#work" data-f="${k}"><span class="sw" style="background:var(--${k})"></span>${v.label}</a>`).join("");
+  USED.map(([k,v]) => `<a href="#work" data-f="${k}"><span class="sw" style="background:var(--${k})"></span>${v.label}</a>`).join("");
 
 /* directory tree for multi-file projects */
 function buildTree(names){
@@ -309,14 +321,14 @@ function treeHTML(n, idx, it){
 
 /* filter chips + list */
 function chips(){
-  $("#chips").innerHTML = [["all","All"],...Object.entries(TYPES).map(([k,v])=>[k,v.label])]
+  $("#chips").innerHTML = [["all","All"],...USED.map(([k,v])=>[k,v.label])]
     .map(([k,l]) => `<button class="chip ${filter===k?"on":""}" data-f="${k}">${l}</button>`).join("");
 }
 function render(){
   const q = $("#q").value.trim().toLowerCase();
   const rows = ITEMS.filter(i => (filter==="all"||i.type===filter) &&
     (!q || (i.title+i.desc+i.tags.join(" ")+(i.files||[]).join(" ")).toLowerCase().includes(q)))
-    .sort((a,b) => b.date.localeCompare(a.date));
+    .sort((a,b) => (b.end||b.date).localeCompare(a.end||a.date));
   $("#list").innerHTML = rows.length ? rows.map(i => {
     const idx = ITEMS.indexOf(i), multi = Array.isArray(i.files);
     const repo = i.repo ? `<a class="btn" href="${esc(i.repo)}" target="_blank" rel="noopener">GitHub</a>` : "";
@@ -328,8 +340,8 @@ function render(){
     const tree = multi ? `<details class="files"><summary>Browse ${i.files.length} files</summary><div class="tree">` +
       (i.dir ? `<div class="root">${esc(base(i).slice(0,-1).split("/").pop())}/</div>` : "") +
       treeHTML(buildTree(i.files), idx, i) + `</div></details>` : "";
-    return `<article class="row" data-type="${i.type}">
-      <div><div class="kind">${TYPES[i.type].kind}</div><time style="font-size:.8rem;color:var(--mute)">${fmt(i.date)}</time></div>
+    return `<article class="row" id="p-${slug(i.id || i.title)}" data-type="${i.type}">
+      <div><div class="kind">${TYPES[i.type].kind}</div><time style="font-size:.8rem;color:var(--mute)">${fmt(i.date)}${i.end ? " – " + fmt(i.end) : ""}</time></div>
       <div><h3>${esc(i.title)}</h3><p>${esc(i.desc)}</p>${i.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join("")}</div>
       <div class="acts">${acts}</div>${tree}</article>`;
   }).join("") : `<div class="empty">No files match. Try another category or search.</div>`;
@@ -375,7 +387,11 @@ function viewPost(i){
 }
 $("#mClose").onclick = () => dlg.close();
 dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
-$("#mBody").addEventListener("click", e => { if (e.target.closest('a[href^="#"]')) dlg.close(); });
+$("#mBody").addEventListener("click", e => {
+  const a = e.target.closest('a[href^="#"]'); if (!a) return;
+  dlg.close();
+  if (a.getAttribute("href").startsWith("#p-")) { filter = "all"; $("#q").value = ""; render(); }
+});
 $("#mCopy").onclick = async e => { try { await navigator.clipboard.writeText(e.target._t); e.target.textContent = "Copied"; } catch { e.target.textContent = "Copy failed"; } };
 
 /* events */
@@ -403,6 +419,447 @@ $("#theme").onclick = () => {
   theme = root.dataset.theme === "dark" ? "light" : "dark"; root.dataset.theme = theme;
   try { localStorage.setItem("theme", theme); } catch {}
 };
+
+/* file checker: open your site with ?check on the end to list every path that returns a 404 */
+if (location.search.includes("check")) (async () => {
+  const paths = ITEMS.flatMap(i => i.files ? i.files.map(f => base(i) + f) : [i.file]);
+  const bad = [];
+  for (const p of paths) { try { const r = await fetch(p, {method:"HEAD"}); if (!r.ok) bad.push(p); } catch { bad.push(p); } }
+  alert(bad.length ? "Missing files:\n" + bad.join("\n") : "All " + paths.length + " files found.");
+})();
+
+render();
+</script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rizwan Anver | Portfolio</title>
+<meta name="description" content="Labs, scripts, slides and writing.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌐</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef1f5;--panel:#fff;--ink:#0f1b2d;--mute:#58657a;--line:#d5dce6;--acc:#0a7fa0;--acc-ink:#fff;
+--script:#6d4fd6;--pt:#0a7fa0;--slides:#d2691e;--doc:#2f8a4f;
+--head:'Bricolage Grotesque','Segoe UI',system-ui,sans-serif;--body:'Instrument Sans','Segoe UI',system-ui,sans-serif;--code:ui-monospace,Menlo,Consolas,monospace}
+:root[data-theme=dark]{--bg:#0a1220;--panel:#111c2e;--ink:#e8eef7;--mute:#93a1b8;--line:#223149;--acc:#3dd0e6;--acc-ink:#06202a;
+--script:#a38cff;--pt:#3dd0e6;--slides:#ff9d57;--doc:#5fd48a}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--body)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:var(--head);line-height:1.1;margin:0}
+
+/* header + dropdowns */
+header{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;gap:8px;height:60px}
+.brand{font:800 1.15rem var(--head);text-decoration:none;margin-right:auto}
+nav ul{list-style:none;margin:0;padding:0;display:flex;gap:2px}
+nav li{position:relative}
+nav a,nav button.dd{font:500 .95rem var(--body);color:var(--ink);background:none;border:0;padding:8px 12px;border-radius:8px;cursor:pointer;text-decoration:none;display:flex;align-items:center;gap:6px}
+nav a:hover,nav button.dd:hover,nav li.open>button{background:var(--line)}
+.dd::after{content:"";width:6px;height:6px;border:solid currentColor;border-width:0 2px 2px 0;transform:rotate(45deg) translateY(-2px)}
+.menu{position:absolute;top:100%;left:0;min-width:210px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:6px;box-shadow:0 12px 30px rgba(8,20,40,.18);display:none}
+li.open>.menu{display:block}
+.menu a{padding:9px 12px;white-space:nowrap}
+.menu .sw{width:9px;height:9px;border-radius:2px}
+.icon-btn{background:none;border:1px solid var(--line);color:var(--ink);border-radius:8px;width:38px;height:38px;cursor:pointer;font-size:1rem}
+#burger{display:none}
+
+/* hero */
+.hero{padding:72px 0 48px;display:grid;grid-template-columns:1.1fr .9fr;gap:32px;align-items:center}
+.hero h1{font-size:clamp(2.4rem,6vw,4.1rem);font-weight:800;letter-spacing:-.02em}
+.hero p{color:var(--mute);font-size:1.12rem;max-width:46ch;margin:18px 0 26px}
+.btns{display:flex;gap:10px;flex-wrap:wrap}
+.btn{display:inline-block;padding:10px 18px;border-radius:8px;border:1px solid var(--line);background:var(--panel);font-weight:600;text-decoration:none;cursor:pointer;font-family:var(--body);font-size:.95rem;color:var(--ink)}
+.btn.main{background:var(--acc);color:var(--acc-ink);border-color:var(--acc)}
+.btn:hover{filter:brightness(.95)}
+.topo{width:100%;height:auto;color:var(--line)}
+.topo .n{fill:var(--panel);stroke:var(--acc);stroke-width:2}
+.topo path{stroke:currentColor;stroke-width:2;fill:none}
+.pkt{fill:var(--acc);offset-path:path("M60 190 L150 90 L270 130 L350 50");animation:go 4s ease-in-out infinite}
+@keyframes go{from{offset-distance:0%}to{offset-distance:100%}}
+
+/* sections */
+section{padding:44px 0}
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:20px}
+.sec-h h2{font-size:1.9rem}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:6px 14px;border-radius:99px;font:500 .88rem var(--body);cursor:pointer}
+.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+#q{border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:7px 14px;border-radius:99px;font:.9rem var(--body);width:180px}
+
+/* file rows */
+.list{border:1px solid var(--line);border-radius:12px;background:var(--panel);overflow:hidden}
+.row{display:grid;grid-template-columns:110px 1fr auto;gap:16px;align-items:center;padding:16px 18px;border-top:1px solid var(--line);border-left:4px solid var(--c)}
+.row:first-child{border-top:0}
+.row:target{background:color-mix(in srgb,var(--acc) 12%,transparent)}
+.row[data-type=script]{--c:var(--script)}.row[data-type=pt]{--c:var(--pt)}.row[data-type=slides]{--c:var(--slides)}.row[data-type=doc]{--c:var(--doc)}
+.kind{font:600 .8rem var(--body);color:var(--c)}
+.row h3{font-size:1.08rem;font-weight:700}
+.row p{margin:3px 0 6px;color:var(--mute);font-size:.93rem}
+.tag{display:inline-block;font:.78rem var(--code);color:var(--mute);border:1px solid var(--line);border-radius:5px;padding:0 6px;margin:0 4px 4px 0}
+.acts{display:flex;gap:6px}
+.acts .btn{padding:6px 12px;font-size:.85rem}
+.empty{padding:30px;text-align:center;color:var(--mute)}
+
+/* directory tree for multi-file projects */
+.files{grid-column:1/-1}
+.files>summary{cursor:pointer;font-weight:600;font-size:.9rem;color:var(--acc)}
+.tree{margin-top:8px;font:.88rem var(--code)}
+.tree .root{color:var(--mute);padding:4px 0}
+.tree summary{cursor:pointer;padding:5px 0;font-weight:600}
+.dir>:not(summary),.tree>:not(.root){margin-left:6px;padding-left:14px;border-left:1px solid var(--line)}
+.frow{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:5px 0}
+.frow .acts .btn{padding:3px 10px;font-size:.78rem}
+
+/* blog */
+.post{display:block;width:100%;text-align:left;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:12px;cursor:pointer;color:var(--ink);font-family:var(--body)}
+.post:hover{border-color:var(--acc)}
+.post time{font-size:.85rem;color:var(--mute)}
+.post h3{font-size:1.25rem;margin:4px 0}
+.post p{margin:0;color:var(--mute)}
+
+.about{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.about p{margin:0 0 14px;color:var(--mute)}
+.skills{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+footer{border-top:1px solid var(--line);padding:26px 0;color:var(--mute);font-size:.9rem}
+
+/* modal */
+dialog{width:min(820px,94vw);max-height:88vh;border:1px solid var(--line);border-radius:14px;background:var(--panel);color:var(--ink);padding:0}
+dialog::backdrop{background:rgba(5,12,24,.6)}
+.m-head{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--panel)}
+.m-head h3{margin-right:auto;font-size:1.1rem}
+.m-body{padding:18px 22px;overflow:auto;max-height:calc(88vh - 62px)}
+.m-body pre{margin:0;font:.85rem/1.5 var(--code);white-space:pre;overflow:auto}
+.m-body iframe{width:100%;height:60vh;border:0;border-radius:8px}
+.m-body p{max-width:70ch}
+.m-body img{max-width:100%;height:auto;border-radius:8px;display:block;margin:14px 0}
+.m-body figure{margin:0}
+.m-body figcaption{color:var(--mute);font-size:.85rem;margin:-6px 0 14px}
+.m-body a{color:var(--acc)}
+
+@media(max-width:780px){
+.hero,.about{grid-template-columns:1fr}.hero{padding-top:40px}
+#burger{display:block}
+nav{display:none;position:absolute;top:60px;left:0;right:0;background:var(--panel);border-bottom:1px solid var(--line);padding:10px 20px}
+nav.show{display:block}nav ul{flex-direction:column}
+.menu{position:static;box-shadow:none;border:0;padding:0 0 0 14px}
+.row{grid-template-columns:1fr}.acts{flex-wrap:wrap}
+}
+@media(prefers-reduced-motion:reduce){.pkt{animation:none;offset-distance:60%}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="#top" id="brand"></a>
+    <nav id="nav" aria-label="Main">
+      <ul>
+        <li><button class="dd" aria-expanded="false" aria-haspopup="true">Projects</button>
+          <div class="menu" id="workMenu"></div></li>
+        <li><a href="#blog">Blog</a></li>
+        <li><a href="#about">About</a></li>
+        <li><button class="dd" aria-expanded="false" aria-haspopup="true">Links</button>
+          <div class="menu" id="linkMenu"></div></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <button class="icon-btn" id="theme" aria-label="Toggle dark mode">◐</button>
+    <button class="icon-btn" id="burger" aria-label="Menu">☰</button>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap hero">
+    <div>
+      <h1 id="hName"></h1>
+      <p id="hTag"></p>
+      <div class="btns">
+        <a class="btn main" href="#work">Browse my most recent work</a>
+        <a class="btn" href="#blog">Blog</a>
+      </div>
+    </div>
+    <svg class="topo" viewBox="0 0 420 240" aria-hidden="true">
+      <path d="M60 190 L150 90 L270 130 L350 50 M150 90 L200 200 L270 130 M60 190 L200 200"/>
+      <circle class="n" cx="60" cy="190" r="12"/><circle class="n" cx="150" cy="90" r="12"/>
+      <circle class="n" cx="270" cy="130" r="12"/><circle class="n" cx="350" cy="50" r="12"/>
+      <circle class="n" cx="200" cy="200" r="12"/>
+      <circle class="pkt" r="6"/>
+    </svg>
+  </div>
+
+  <section id="work"><div class="wrap">
+    <div class="sec-h"><h2>Projects</h2>
+      <div class="tools"><div id="chips" class="tools"></div><input id="q" type="search" placeholder="Search files" aria-label="Search files"></div>
+    </div>
+    <div class="list" id="list"></div>
+  </div></section>
+
+  <section id="blog"><div class="wrap">
+    <div class="sec-h"><h2>Blog</h2></div>
+    <div id="posts"></div>
+  </div></section>
+
+  <section id="about"><div class="wrap about">
+    <div><h2 style="margin-bottom:16px">About</h2><div id="aboutText"></div></div>
+    <div><h2 style="margin-bottom:16px">Skills</h2><div class="skills" id="skills"></div></div>
+  </div></section>
+
+  <section id="contact"><div class="wrap">
+    <h2 style="margin-bottom:14px">Contact</h2>
+    <p style="color:var(--mute);margin:0 0 16px">Wanna grab my attention or stalk?</p>
+    <div class="btns" id="contactBtns"></div>
+  </div></section>
+</main>
+
+<footer><div class="wrap" id="foot"></div></footer>
+
+<dialog id="dlg">
+  <div class="m-head"><h3 id="mTitle"></h3><button class="btn" id="mCopy" hidden>Copy</button><button class="btn" id="mClose">Close</button></div>
+  <div class="m-body" id="mBody"></div>
+</dialog>
+
+<script>
+/* ============ EDIT THIS SECTION ============ */
+const CONFIG = {
+  name: "Rizwan",
+  tagline: "Network and systems projects: labs, scripts, slide decks and write-ups, all in one place.",
+  about: [
+    "Hey, I'm Rizwan. This entire site is dedicated to showcasing whatever I'm up to. I'm on a quest to land in cybersecurity.",
+    "Feel free to browse or shoot me a message if you're ever curious about anything!"
+  ],
+  skills: ["Networking","C++","MySQL","Routing & Switching","VLANs","ACLs","Python","PowerShell","Windows","Active Directory","Linux","DevOps"],
+  email: "rizwananver07@gmail.com",
+  links: [
+    { label: "GitHub",   url: "https://github.com/rizwan-cst" },
+    { label: "LinkedIn", url: "https://linkedin.com/in/rizwan-anver" },
+    { label: "Resume (PDF)", url: "files/docs/resume.pdf" }
+  ]
+};
+
+/* type decides the category + colour:  script = PowerShell | pt = Networking | slides = PowerPoint | doc = Databases
+   SINGLE FILE:  file:"path/to/file.ext"
+   MULTI FILE:   dir:"path/to/folder", files:["README.md","data/books.json"]   (subfolders become folders in the tree)
+   Optional on any item:
+     repo:"https://github.com/..."  adds a GitHub button
+     zip:"path/to/all-files.zip"    adds a Download .zip button (multi-file only)
+     end:"YYYY-MM-DD"               shows a date range (date to end)
+     id:"short-name"                stable link target: a blog post can link to it with <a href="#p-short-name">
+   date = YYYY-MM-DD   |   paths are case-sensitive and need the file extension */
+const ITEMS = [
+  { type:"pt", title:"IP Address Allocation", desc:"Assigned and allocated IP addresses on a LAN.", file:"files/Networking/CST-1/rizwan-anver-ip.pkt", tags:["switching","routing"], date:"2026-02-09" },
+  { type:"pt", title:"DNS & DHCP Servers", desc:"Configured DNS and DHCP services on a LAN.", file:"files/Networking/CST-1/rizwan-anver-dns-dhcp.pkt", tags:["DNS","DHCP"], date:"2026-02-07" },
+  { type:"pt", title:"Multiple Subnets", desc:"Subnetted multiple LANs connected with switching.", file:"files/Networking/CST-1/rizwan.anver-subnet.pkt", tags:["subnet","switching"], date:"2026-03-09" },
+  { type:"pt", title:"VLAN Segmentation", desc:"Segmented a small office LAN using VLANs.", file:"files/Networking/CST-1/rizwan.anver-VLAN.pkt", tags:["switching","VLANs"], date:"2026-03-09" },
+  { type:"pt", title:"Router-on-a-Stick with VLANs", desc:"ROAS configuration with VLAN segmentation. Ideal for budget companies.", file:"files/Networking/CST-1/rizwan-anver-ROAS.pkt", tags:["ROAS","VLANs"], date:"2026-04-10" },
+
+  { type:"pt", title:"Dynamic Routing: EIGRP", desc:"Configured EIGRP (Cisco only) on a network spanning several routers.", file:"files/Networking/CST-2/rizwan-anver-EIGRP.pka", tags:["routing","EIGRP"], date:"2026-05-14" },
+  { type:"pt", title:"EtherChannel with VLANs", desc:"EtherChannel bundles multiple physical Ethernet links into one logical link.", file:"files/Networking/CST-2/rizwan-anver-EtherC.pka", tags:["switching","VLANs","EtherChannel"], date:"2026-05-08" },
+  { type:"pt", title:"Dynamic Routing: OSPF", desc:"OSPF (Open Shortest Path First) isn't limited to Cisco, unlike EIGRP.", file:"files/Networking/CST-2/rizwan-anver-OSPF.pka", tags:["routing","OSPF"], date:"2026-05-14" },
+  { type:"pt", title:"STP: Spanning Tree Protocol", desc:"Configured STP on a network to prevent broadcast loops.", file:"files/Networking/CST-2/rizwan-anver-STP.pka", tags:["switching","STP"], date:"2026-05-06" },
+
+  { type:"doc", title:"National Infrastructure Database", desc:"A centralized database containing information about infrastructure projects across Canada.",
+    tags:["MySQL","JSON","XML","schema"], date:"2026-04-13",
+    dir:"files/Databases/National-Infrastructure",
+    files:["README.docx","infrastructure-projects-JSON.json","infrastructure-projects-XML.xml","national-database-schema.mwb","national-infrastructure-database.sql"] },
+
+  { type:"script", title:"PowerShell Cmdlets", desc:"PowerShell cmdlet research and documentation.",
+    tags:["PowerShell","scripting","cmdlets"], date:"2026-08-13", end:"2026-09-17",
+    dir:"files/PowerShell/cmdlets",
+    files:["Commandlet1.ps1","Commandlet2.ps1","Commandlet3.ps1","Commandlet4.ps1","Commandlet5.ps1","Commandlet6.ps1"] },
+
+  { type:"script", title:"PowerShell Scripting", desc:"Miscellaneous PowerShell scripting work.",
+    tags:["PowerShell","scripting"], date:"2026-08-13", end:"2026-09-17",
+    dir:"files/PowerShell/scripting-labs",
+    files:["CVS-Reporting.ps1","Class-Objects-Constructors-Custom-Objects.ps1","Lab-6.ps1","Lab-7.ps1","Lab-8.ps1"] },
+
+  { type:"script", title:"Software Inventory Generator", desc:"Uses WMI cmdlets to list all software installed on a machine. Works across multiple systems, including remote machines.",
+    file:"files/PowerShell/scripting-labs/SoftwareInventoryGenerator.ps1", tags:["PowerShell","scripting","WMI"], date:"2026-08-10" },
+
+  { type:"slides", id:"positive-communication", title:"Fostering Positive Communication", desc:"PowerPoint slide deck covering the fundamentals of fostering positive communication.",
+    file:"files/Technical-Communications/Week_7_Positive_Communication_Presentation.pptx", tags:["pptx","communication","oratory"], date:"2026-03-09" },
+
+  { type:"slides", title:"Agent Red", desc:"PowerPoint slide deck.",
+    file:"files/Technical-Communications/Agent_Red.pptx", tags:["pptx","oratory","AI","LLM"], date:"2026-04-13" }
+];
+
+/* body is HTML inside backticks (can span lines). Newest post first.
+   Link to a project with <a href="#p-ID">text</a> where ID is the item's id (or its title in lowercase with dashes). */
+const POSTS = [
+  { title:"Fostering Positive Communication", date:"2026-05-14",
+    summary:"What does it mean to foster positive communication?",
+    body:`
+      <p>Communication is one of the most important oratory skills in a person's everyday life. No matter what direction you are headed towards, being able to collaborate, converse, and work together with people is a must for everyone. Now the question is: how do we build these bridges?</p>
+      <p>I put this into practice in a class presentation: <a href="#p-positive-communication">view the slide deck in my projects</a>.</p>
+    ` }
+];
+/* ============ END EDIT SECTION ============ */
+
+const TYPES = {
+  script:{label:"PowerShell", kind:"PowerShell"},
+  pt:{label:"Networking", kind:"Networking"},
+  slides:{label:"PowerPoint", kind:"PowerPoint"},
+  doc:{label:"Databases", kind:"Databases"}
+};
+const USED = Object.entries(TYPES).filter(([k]) => ITEMS.some(i => i.type === k));
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = d => new Date(d + "T00:00").toLocaleDateString(undefined,{year:"numeric",month:"short",day:"numeric"});
+const slug = s => String(s).toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+const TEXT = /\.(md|txt|json|xml|sql|csv|ps1|py|sh|js|html|ya?ml|cpp|c|h|ini|cfg|conf|log)$/i;
+const base = it => it.dir ? it.dir.replace(/\/$/,"") + "/" : "";
+let filter = "all";
+
+/* basics */
+document.title = CONFIG.name + " | Portfolio";
+$("#brand").textContent = CONFIG.name;
+$("#hName").textContent = CONFIG.name;
+$("#hTag").textContent = CONFIG.tagline;
+$("#aboutText").innerHTML = CONFIG.about.map(p => `<p>${esc(p)}</p>`).join("");
+$("#skills").innerHTML = CONFIG.skills.map(s => `<span class="tag">${esc(s)}</span>`).join("");
+$("#contactBtns").innerHTML = `<a class="btn main" href="mailto:${esc(CONFIG.email)}">Email me</a>` +
+  CONFIG.links.map(l => `<a class="btn" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join("");
+$("#foot").textContent = `© ${new Date().getFullYear()} ${CONFIG.name}. Built with plain HTML and hosted on GitHub Pages.`;
+$("#linkMenu").innerHTML = CONFIG.links.map(l => `<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join("");
+$("#workMenu").innerHTML = `<a href="#work" data-f="all">All work</a>` +
+  USED.map(([k,v]) => `<a href="#work" data-f="${k}"><span class="sw" style="background:var(--${k})"></span>${v.label}</a>`).join("");
+
+/* directory tree for multi-file projects */
+function buildTree(names){
+  const root = {dirs:{}, files:[]};
+  names.forEach((full,j) => {
+    const parts = full.split("/"), leaf = parts.pop(); let n = root;
+    parts.forEach(p => n = n.dirs[p] = n.dirs[p] || {dirs:{}, files:[]});
+    n.files.push({name:leaf, j});
+  });
+  return root;
+}
+function treeHTML(n, idx, it){
+  const dirs = Object.keys(n.dirs).sort().map(d =>
+    `<details class="dir" open><summary>${esc(d)}/</summary>${treeHTML(n.dirs[d], idx, it)}</details>`).join("");
+  const files = n.files.map(f =>
+    `<div class="frow"><span>${esc(f.name)}</span><span class="acts">` +
+    (TEXT.test(f.name) ? `<button class="btn" data-pv="${idx}:${f.j}">View</button>` : "") +
+    `<a class="btn" href="${esc(base(it) + it.files[f.j])}" download>Download</a></span></div>`).join("");
+  return dirs + files;
+}
+
+/* filter chips + list */
+function chips(){
+  $("#chips").innerHTML = [["all","All"],...USED.map(([k,v])=>[k,v.label])]
+    .map(([k,l]) => `<button class="chip ${filter===k?"on":""}" data-f="${k}">${l}</button>`).join("");
+}
+function render(){
+  const q = $("#q").value.trim().toLowerCase();
+  const rows = ITEMS.filter(i => (filter==="all"||i.type===filter) &&
+    (!q || (i.title+i.desc+i.tags.join(" ")+(i.files||[]).join(" ")).toLowerCase().includes(q)))
+    .sort((a,b) => (b.end||b.date).localeCompare(a.end||a.date));
+  $("#list").innerHTML = rows.length ? rows.map(i => {
+    const idx = ITEMS.indexOf(i), multi = Array.isArray(i.files);
+    const repo = i.repo ? `<a class="btn" href="${esc(i.repo)}" target="_blank" rel="noopener">GitHub</a>` : "";
+    const acts = multi
+      ? repo + (i.zip ? `<a class="btn" href="${esc(i.zip)}" download>Download .zip</a>` : "")
+      : (i.type==="script" ? `<button class="btn" data-view="${idx}">View code</button>`
+        : i.type==="slides" ? `<button class="btn" data-view="${idx}">Preview</button>` : "")
+        + repo + `<a class="btn" href="${esc(i.file)}" download>Download</a>`;
+    const tree = multi ? `<details class="files"><summary>Browse ${i.files.length} files</summary><div class="tree">` +
+      (i.dir ? `<div class="root">${esc(base(i).slice(0,-1).split("/").pop())}/</div>` : "") +
+      treeHTML(buildTree(i.files), idx, i) + `</div></details>` : "";
+    return `<article class="row" id="p-${slug(i.id || i.title)}" data-type="${i.type}">
+      <div><div class="kind">${TYPES[i.type].kind}</div><time style="font-size:.8rem;color:var(--mute)">${fmt(i.date)}${i.end ? " – " + fmt(i.end) : ""}</time></div>
+      <div><h3>${esc(i.title)}</h3><p>${esc(i.desc)}</p>${i.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join("")}</div>
+      <div class="acts">${acts}</div>${tree}</article>`;
+  }).join("") : `<div class="empty">No files match. Try another category or search.</div>`;
+  chips();
+}
+function setFilter(f){ filter = f; render(); }
+
+/* blog */
+$("#posts").innerHTML = POSTS.map((p,i) => `<button class="post" data-post="${i}"><time>${fmt(p.date)}</time><h3>${esc(p.title)}</h3><p>${esc(p.summary)}</p></button>`).join("");
+
+/* modal */
+const dlg = $("#dlg");
+function openModal(title, node, copyText){
+  $("#mTitle").textContent = title;
+  $("#mBody").replaceChildren(node);
+  const c = $("#mCopy"); c.hidden = copyText == null; c.textContent = "Copy"; c._t = copyText;
+  dlg.showModal();
+}
+async function viewFile(path){
+  const pre = document.createElement("pre"); pre.textContent = "Loading…";
+  openModal(path.split("/").pop(), pre, null);
+  try {
+    const r = await fetch(path); if(!r.ok) throw 0;
+    const t = await r.text(); pre.textContent = t;
+    $("#mCopy").hidden = false; $("#mCopy")._t = t;
+  } catch { pre.textContent = "Could not load this file. Check the path and that it's in your repo."; }
+}
+async function viewItem(i){
+  const it = ITEMS[i];
+  if (it.type === "script") return viewFile(it.file);
+  const url = new URL(it.file, location.href).href;
+  const f = document.createElement("iframe"); f.title = it.title;
+  f.src = "https://view.officeapps.live.com/op/embed.aspx?src=" + encodeURIComponent(url);
+  const w = document.createElement("div");
+  const n = document.createElement("p"); n.style.cssText = "color:var(--mute);font-size:.85rem";
+  n.textContent = "The preview works once the site is live on GitHub Pages. Otherwise use Download.";
+  w.append(f,n); openModal(it.title, w, null);
+}
+function viewPost(i){
+  const p = POSTS[i], d = document.createElement("div");
+  d.innerHTML = `<time style="color:var(--mute)">${fmt(p.date)}</time>${p.body}`;
+  openModal(p.title, d, null);
+}
+$("#mClose").onclick = () => dlg.close();
+dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
+$("#mBody").addEventListener("click", e => {
+  const a = e.target.closest('a[href^="#"]'); if (!a) return;
+  dlg.close();
+  if (a.getAttribute("href").startsWith("#p-")) { filter = "all"; $("#q").value = ""; render(); }
+});
+$("#mCopy").onclick = async e => { try { await navigator.clipboard.writeText(e.target._t); e.target.textContent = "Copied"; } catch { e.target.textContent = "Copy failed"; } };
+
+/* events */
+document.addEventListener("click", e => {
+  const t = e.target;
+  const f = t.closest("[data-f]"); if (f) setFilter(f.dataset.f);
+  const v = t.closest("[data-view]"); if (v) viewItem(+v.dataset.view);
+  const pv = t.closest("[data-pv]"); if (pv){ const [a,b] = pv.dataset.pv.split(":"); const it = ITEMS[+a]; viewFile(base(it) + it.files[+b]); }
+  const p = t.closest("[data-post]"); if (p) viewPost(+p.dataset.post);
+  const dd = t.closest("button.dd");
+  document.querySelectorAll("nav li.open").forEach(li => { if (!dd || li !== dd.parentElement) { li.classList.remove("open"); li.firstElementChild.setAttribute("aria-expanded","false"); } });
+  if (dd){ const o = dd.parentElement.classList.toggle("open"); dd.setAttribute("aria-expanded", o); }
+  else if (t.closest("nav a")) $("#nav").classList.remove("show");
+});
+document.addEventListener("keydown", e => { if (e.key==="Escape") document.querySelectorAll("nav li.open").forEach(li => li.classList.remove("open")); });
+$("#q").addEventListener("input", render);
+$("#burger").onclick = () => $("#nav").classList.toggle("show");
+
+/* theme */
+const root = document.documentElement;
+let theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+try { theme = localStorage.getItem("theme") || theme; } catch {}
+root.dataset.theme = theme;
+$("#theme").onclick = () => {
+  theme = root.dataset.theme === "dark" ? "light" : "dark"; root.dataset.theme = theme;
+  try { localStorage.setItem("theme", theme); } catch {}
+};
+
+/* file checker: open your site with ?check on the end to list every path that returns a 404 */
+if (location.search.includes("check")) (async () => {
+  const paths = ITEMS.flatMap(i => i.files ? i.files.map(f => base(i) + f) : [i.file]);
+  const bad = [];
+  for (const p of paths) { try { const r = await fetch(p, {method:"HEAD"}); if (!r.ok) bad.push(p); } catch { bad.push(p); } }
+  alert(bad.length ? "Missing files:\n" + bad.join("\n") : "All " + paths.length + " files found.");
+})();
 
 render();
 </script>

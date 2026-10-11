@@ -225,7 +225,7 @@ const ITEMS = [
   { type:"pt", title:"Dynamic Routing: EIGRP", desc:"Configured EIGRP (Cisco only) on a network spanning several routers.", file:"files/Networking/CST-2/rizwan-anver-EIGRP.pkt", tags:["routing","EIGRP"], date:"2026-05-14" },
   { type:"pt", title:"EtherChannel with VLANs", desc:"EtherChannel bundles multiple physical Ethernet links into one logical link.", file:"files/Networking/CST-2/rizwan-anver-EtherC.pkt", tags:["switching","VLANs","EtherChannel"], date:"2026-05-08" },
   { type:"pt", title:"Dynamic Routing: OSPF", desc:"OSPF (Open Shortest Path First) isn't limited to Cisco, unlike EIGRP.", file:"files/Networking/CST-2/rizwan-anver-OSPF.pkt", tags:["routing","OSPF"], date:"2026-05-14" },
-  { type:"pt", title:"STP: Spanning Tree Protocol", desc:"Configured STP on a network to prevent broadcast loops.", file:"files/Networking/CST-2/rizwan-anver-STP.pkt", tags:["switching","STP"], date:"2026-05-06" }
+  { type:"pt", title:"STP: Spanning Tree Protocol", desc:"Configured STP on a network to prevent broadcast loops.", file:"files/Networking/CST-2/rizwan-anver-STP.pkt", tags:["switching","STP"], date:"2026-05-06" },
 
   /* Multi-file example. Uncomment (and add a comma after the STP item above) once the files are in your repo:
   ,{ type:"doc", title:"Library Database", desc:"Schema, sample data and documentation for a library system.", tags:["mysql","json","xml"], date:"2026-10-01",
@@ -233,6 +233,11 @@ const ITEMS = [
     files:["README.md","schema/library.xml","schema/tables.sql","data/books.json","data/members.json"],
     repo:"https://github.com/rizwan-cst/library-db" }
   */
+
+  { type: "script", title:"National Infrastructure Database", desc:"a centralized database that contains information about various infrastructure projects spanning across Canada", tags:["Databases","MySQL","JSON", "XML", "Schema"], date:"2026-04-13",
+   dir:"files/Databases/National-Infrastructure", 
+   files: ["README.docx","infrastructure-projects-JSON.json","infrastructure-projects-XML.xml","national-database-schema.mwb","national-infrastructure-database.sql"],
+  }
 ];
 
 /* body is HTML inside backticks (can span lines). Newest post first. */
